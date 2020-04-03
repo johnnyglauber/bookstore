@@ -1,12 +1,14 @@
 <?php
 
-namespace TCG\Voyager\Widgets;
+namespace App\Widgets;
 
+use App\Sale;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use TCG\Voyager\Facades\Voyager;
+use TCG\Voyager\Widgets\BaseDimmer;
 
-class PostDimmer extends BaseDimmer
+class SaleDimmer extends BaseDimmer
 {
     /**
      * The configuration array.
@@ -21,16 +23,16 @@ class PostDimmer extends BaseDimmer
      */
     public function run()
     {
-        $count = Voyager::model('Post')->count();
-        $string = trans_choice('voyager::dimmer.post', $count);
+        $count = Sale::count();
+        $string = trans_choice('Venda(s)', $count);
 
         return view('voyager::dimmer', array_merge($this->config, [
-            'icon'   => 'voyager-news',
+            'icon'   => 'voyager-dollar',
             'title'  => "{$count} {$string}",
-            'text'   => __('voyager::dimmer.post_text', ['count' => $count, 'string' => Str::lower($string)]),
+            'text'   => __('Tem :count :string no seu banco de dados.<br>Clique no botão abaixo para acessar todas as vendas.', ['count' => $count, 'string' => Str::lower($string)]),
             'button' => [
-                'text' => __('voyager::dimmer.post_link_text'),
-                'link' => route('voyager.posts.index'),
+                'text' => 'Vendas',
+                'link' => route('voyager.sales.index'),
             ],
             'image' => voyager_asset('images/widget-backgrounds/02.jpg'),
         ]));
@@ -43,6 +45,6 @@ class PostDimmer extends BaseDimmer
      */
     public function shouldBeDisplayed()
     {
-        return Auth::user()->can('browse', Voyager::model('Post'));
+        return Auth::user()->can('browse', Voyager::model('User'));
     }
 }

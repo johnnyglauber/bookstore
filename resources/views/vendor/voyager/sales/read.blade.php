@@ -39,6 +39,29 @@
 
                 <div class="panel panel-bordered" style="padding-bottom:5px;">
                     <!-- form start -->
+
+                    <div class="panel-heading" style="border-bottom:0;">
+                        <h3 class="panel-title">Livro</h3>
+                    </div>
+                    <div class="panel-body" style="padding-top:0;">
+                        {{ $dataTypeContent->book->name }}
+                    </div>
+
+                    <div class="panel-heading" style="border-bottom:0;">
+                        <h3 class="panel-title">Editora</h3>
+                    </div>
+                    <div class="panel-body" style="padding-top:0;">
+                        {{ $dataTypeContent->book->publisher->name }}
+                    </div>
+
+                    <div class="panel-heading" style="border-bottom:0;">
+                        <h3 class="panel-title">Preço</h3>
+                    </div>
+                    <div class="panel-body" style="padding-top:0;">
+                        {{ $dataTypeContent->book->price }}
+                    </div>
+
+
                     @foreach($dataType->readRows as $row)
                         @php
                         if ($dataTypeContent->{$row->field.'_read'}) {

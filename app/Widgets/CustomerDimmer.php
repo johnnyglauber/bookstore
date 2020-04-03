@@ -2,13 +2,13 @@
 
 namespace App\Widgets;
 
-use App\Sale;
+use App\Customer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use TCG\Voyager\Facades\Voyager;
 use TCG\Voyager\Widgets\BaseDimmer;
 
-class SaleDimmer extends BaseDimmer
+class CustomerDimmer extends BaseDimmer
 {
     /**
      * The configuration array.
@@ -23,18 +23,18 @@ class SaleDimmer extends BaseDimmer
      */
     public function run()
     {
-        $count = Sale::count();
-        $string = trans_choice('Venda(s)', $count);
+        $count = Customer::count();
+        $string = trans_choice('Cliente(s)', $count);
 
         return view('voyager::dimmer', array_merge($this->config, [
-            'icon'   => 'voyager-dollar',
+            'icon'   => 'voyager-group',
             'title'  => "{$count} {$string}",
-            'text'   => __('Tem :count :string no seu banco de dados. Clique no botão abaixo para ver todas as vendas.', ['count' => $count, 'string' => Str::lower($string)]),
+            'text'   => __('Tem :count :string no seu banco de dados. Clique no botão abaixo para ver todos os clientes.', ['count' => $count, 'string' => Str::lower($string)]),
             'button' => [
-                'text' => 'Vendas',
-                'link' => route('voyager.sales.index'),
+                'text' => 'Clientes',
+                'link' => route('voyager.customers.index'),
             ],
-            'image' => voyager_asset('images/widget-backgrounds/02.jpg'),
+            'image' => voyager_asset('images/widget-backgrounds/01.jpg'),
         ]));
     }
 

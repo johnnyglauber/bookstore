@@ -83,6 +83,11 @@
                                                 <input type="checkbox" class="select_all">
                                             </th>
                                         @endif
+
+                                            <th>Livro</th>
+                                            <th>Editora</th>
+                                            <th>Preço</th>
+
                                         @foreach($dataType->browseRows as $row)
                                         <th>
                                             @if ($isServerSide)
@@ -112,13 +117,20 @@
                                                 <input type="checkbox" name="row_id" id="checkbox_{{ $data->getKey() }}" value="{{ $data->getKey() }}">
                                             </td>
                                         @endif
+
+                                            <td>{{ $data->book->name }}</td>
+                                            <td>{{ $data->book->publisher->name }}</td>
+                                            <td>{{ $data->book->price }}</td>
+
                                         @foreach($dataType->browseRows as $row)
                                             @php
                                             if ($data->{$row->field.'_browse'}) {
                                                 $data->{$row->field} = $data->{$row->field.'_browse'};
                                             }
                                             @endphp
+
                                             <td>
+
                                                 @if (isset($row->details->view))
                                                     @include($row->details->view, ['row' => $row, 'dataType' => $dataType, 'dataTypeContent' => $dataTypeContent, 'content' => $data->{$row->field}, 'action' => 'browse', 'view' => 'browse', 'options' => $row->details])
                                                 @elseif($row->type == 'image')
@@ -144,16 +156,16 @@
                                                         @endif
                                                     @endif
 
-                                                    @elseif($row->type == 'multiple_checkbox' && property_exists($row->details, 'options'))
-                                                        @if (@count(json_decode($data->{$row->field})) > 0)
-                                                            @foreach(json_decode($data->{$row->field}) as $item)
-                                                                @if (@$row->details->options->{$item})
-                                                                    {{ $row->details->options->{$item} . (!$loop->last ? ', ' : '') }}
-                                                                @endif
-                                                            @endforeach
-                                                        @else
-                                                            {{ __('voyager::generic.none') }}
-                                                        @endif
+                                                @elseif($row->type == 'multiple_checkbox' && property_exists($row->details, 'options'))
+                                                    @if (@count(json_decode($data->{$row->field})) > 0)
+                                                        @foreach(json_decode($data->{$row->field}) as $item)
+                                                            @if (@$row->details->options->{$item})
+                                                                {{ $row->details->options->{$item} . (!$loop->last ? ', ' : '') }}
+                                                            @endif
+                                                        @endforeach
+                                                    @else
+                                                        {{ __('voyager::generic.none') }}
+                                                    @endif
 
                                                 @elseif(($row->type == 'select_dropdown' || $row->type == 'radio_btn') && property_exists($row->details, 'options'))
 
@@ -173,7 +185,7 @@
                                                             <span class="label label-primary">{{ $row->details->off }}</span>
                                                         @endif
                                                     @else
-                                                    {{ $data->{$row->field} }}
+                                                        {{ $data->{$row->field} }}
                                                     @endif
                                                 @elseif($row->type == 'color')
                                                     <span class="badge badge-lg" style="background-color: {{ $data->{$row->field} }}">{{ $data->{$row->field} }}</span>
@@ -221,13 +233,13 @@
                                                     @if ($files)
                                                         @if (property_exists($row->details, 'show_as_images') && $row->details->show_as_images)
                                                             @foreach (array_slice($files, 0, 3) as $file)
-                                                            <img src="@if( !filter_var($file, FILTER_VALIDATE_URL)){{ Voyager::image( $file ) }}@else{{ $file }}@endif" style="width:50px">
+                                                                <img src="@if( !filter_var($file, FILTER_VALIDATE_URL)){{ Voyager::image( $file ) }}@else{{ $file }}@endif" style="width:50px">
                                                             @endforeach
                                                         @else
                                                             <ul>
-                                                            @foreach (array_slice($files, 0, 3) as $file)
-                                                                <li>{{ $file }}</li>
-                                                            @endforeach
+                                                                @foreach (array_slice($files, 0, 3) as $file)
+                                                                    <li>{{ $file }}</li>
+                                                                @endforeach
                                                             </ul>
                                                         @endif
                                                         @if (count($files) > 3)
@@ -248,6 +260,8 @@
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
                                                     <span>{{ $data->{$row->field} }}</span>
                                                 @endif
+
+
                                             </td>
                                         @endforeach
                                         <td class="no-sort no-click bread-actions">

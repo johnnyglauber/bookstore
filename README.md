@@ -17,7 +17,7 @@
 ## Instalação em ambiente LAMP
 
 - Acessar diretório onde será clonado o projeto do Git
-- Rodar comando: git clone
+- Rodar comando: git clone https://github.com/johnnyglauber/bookstore.git
 - Acessar diretório raiz do projeto
 - Rodar comando: composer install
 - Rodar comando: sudo cp .env.example .env

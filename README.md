@@ -20,6 +20,7 @@
 - Rodar comando: git clone https://github.com/johnnyglauber/bookstore.git
 - Acessar diretório raiz do projeto
 - Rodar comando: composer install
+- Criar base de dados no MySQL
 - Rodar comando: sudo cp .env.example .env
 - Informar no arquivo .env as credenciais de acesso à Base de Dados
 - Rodar comando: php artisan config:cache
